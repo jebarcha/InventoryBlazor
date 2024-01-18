@@ -1,0 +1,26 @@
+﻿@model CreateSearchViewModel
+<h1>@ViewData["Title"]</h1>
+<p class="text-end">
+    @Model.TotalRecords Records
+</p>
+<div class="row mb-3">
+    <div class="col-6">
+        <a class="btn btn-primary" asp-page="Create">
+            <i class="fa-solid fa-plus"></i>&nbsp;@Model.TitleCreate
+        </a>
+    </div>
+    <div class="col-6">
+        <form>
+            <div class="input-group">
+                <input asp-for="SearchTerm" class="form-control" placeholder="Search"
+                       aria-label="Search" />
+                <button name="searchButton" id="searchButton" type="submit" class="btn btn-outline-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i>&nbsp;Search
+                </button>
+                <a asp-page="./Index" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-arrows-rotate"></i>&nbsp;Clear
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

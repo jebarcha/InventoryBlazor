@@ -1,44 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using RPInventory.Data;
 using RPInventory.Models;
 
-namespace RPInventory.Pages.Brands
+namespace RPInventory.Pages.Brands;
+
+public class CreateModel : PageModel
 {
-    public class CreateModel : PageModel
+    private readonly InventoryContext _context;
+    private readonly INotyfService _serviceNotification;
+
+    public CreateModel(InventoryContext context, INotyfService serviceNotification)
     {
-        private readonly RPInventory.Data.InventoryContext _context;
+        _context = context;
+        _serviceNotification = serviceNotification;
+    }
 
-        public CreateModel(RPInventory.Data.InventoryContext context)
-        {
-            _context = context;
-        }
+    public IActionResult OnGet()
+    {
+        return Page();
+    }
 
-        public IActionResult OnGet()
+    [BindProperty]
+    public Brand Brand { get; set; } = default!;
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid)
         {
+            _serviceNotification.Error($"There's an error. Please fix the problems to create the brand {Brand.Name}");
             return Page();
         }
 
-        [BindProperty]
-        public Brand Brand { get; set; } = default!;
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        var existBrandInDb = _context.Brands.Any(u => u.Name.ToLower().Trim() == Brand.Name.ToLower().Trim());
+        if (existBrandInDb)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Brands.Add(Brand);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            _serviceNotification.Warning($"Brand Name {Brand.Name} already exists");
+            return Page();
         }
+
+        _context.Brands.Add(Brand);
+        await _context.SaveChangesAsync();
+
+        _serviceNotification.Success($"Brand created successfully {Brand.Name}");
+
+        return RedirectToPage("./Index");
     }
 }

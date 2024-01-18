@@ -1,15 +1,13 @@
-﻿@page
+﻿@page "{id:int?}"
 @model RPInventory.Pages.Brands.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details Brand";
 }
 
-<h1>Details</h1>
-
+<h4>@ViewData["Title"]</h4>
+<hr />
 <div>
-    <h4>Brand</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Brand.Name)
@@ -19,7 +17,8 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Brand.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+<div class="row">
+    <div class="col">
+        <partial name="Actions/_Details" model="@Model.Brand.Id"/>
+    </div>
 </div>
