@@ -26,11 +26,11 @@ public static class DbInitializer
 
         var departments = new Department[]
         {
-            new Department { Name = "General Admin"},
-            new Department { Name = "Human Resources"},
-            new Department { Name = "Material Resources"},
-            new Department { Name = "Information Technology"},
-            new Department { Name = "Sports"}
+            new Department { Name = "General Admin", Description = "General Administration", DateCreation = DateTime.Now},
+            new Department { Name = "Human Resources", Description = "Human Resources", DateCreation = DateTime.Now},
+            new Department { Name = "Material Resources", Description = "Material Resources", DateCreation = DateTime.Now},
+            new Department { Name = "Information Technology", Description = "Information Technology", DateCreation = DateTime.Now},
+            new Department { Name = "Sports", Description = "Sports", DateCreation = DateTime.Now}
         };
 
         context.Departments.AddRange(departments);

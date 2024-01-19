@@ -1,0 +1,63 @@
+﻿@page
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model RPInventory.Pages.Departments.IndexModel
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+@await Html.PartialAsync("Actions/_CreateSearch", new CreateSearchViewModel
+{
+    SearchTerm = Model.SearchTerm,
+    TitleCreate = "Create Department",
+    TotalRecords = Model.TotalRecords
+})
+
+<table class="table table-hover table-bordered table-striped">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Departments[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departments[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departments[0].DateCreation)
+            </th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Departments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreation)
+                </td>
+                <td class="text-center">
+                    <partial name="Actions/_Crud" model="item.Id" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model.Departments, page => Url.Action("Index", new
+    {
+        PageNumber = page,
+        SearchTerm = Model.SearchTerm
+    }),
+        new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    }
+    )

@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using RPInventory.Data;
 using RPInventory.Models;
 using X.PagedList;
 
-namespace RPInventory.Pages.Brands;
+namespace RPInventory.Pages.Departments;
 
 public class IndexModel : PageModel
 {
@@ -18,28 +17,28 @@ public class IndexModel : PageModel
         _configuration = configuration;
     }
 
-    public IPagedList<Brand> Brands { get; set; }
+    public IPagedList<Department> Departments { get; set; }
     [BindProperty(SupportsGet = true)]
     public int? PageNumber { get; set; }
-    [BindProperty(SupportsGet = true)] 
+    [BindProperty(SupportsGet = true)]
     public string SearchTerm { get; set; }
     public int TotalRecords { get; set; }
 
     public async Task OnGetAsync()
     {
         var recordsPerPage = _configuration.GetValue("RecordsPerPage", 3);
-        
-        var result = _context.Brands
+
+        var result = _context.Departments
                                .Select(u => u);
 
         if (!string.IsNullOrEmpty(SearchTerm))
         {
             result = result.Where(u => u.Name.Contains(SearchTerm));
         }
-        
+
         TotalRecords = result.Count();
         var pageNumber = PageNumber ?? 1;
 
-        Brands = await result.ToPagedListAsync(pageNumber, recordsPerPage);
+        Departments = await result.ToPagedListAsync(pageNumber, recordsPerPage);
     }
 }

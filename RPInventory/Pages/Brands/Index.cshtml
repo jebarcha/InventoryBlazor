@@ -13,8 +13,6 @@
     TotalRecords = Model.TotalRecords
 })
 
-
-
 <table class="table table-hover table-bordered table-striped">
     <thead class="bg-primary text-white">
         <tr>
@@ -39,7 +37,7 @@
 </table>
 
 @Html.PagedListPager(Model.Brands, page => Url.Action("Index", new {
-    Page = page,
+    PageNumber  = page,
     SearchTerm = Model.SearchTerm
 }),
     new PagedListRenderOptions {
