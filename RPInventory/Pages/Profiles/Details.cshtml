@@ -1,0 +1,24 @@
+﻿@page "{id:int?}"
+@model RPInventory.Pages.Profiles.DetailsModel
+
+@{
+    ViewData["Title"] = "Details of Profile";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Profile.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Profile.Name)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="col">
+        <partial name="Actions/_Details" model="@Model.Profile.Id" />
+    </div>
+</div>

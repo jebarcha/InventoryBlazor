@@ -1,0 +1,23 @@
+﻿@page "{id:int?}"
+@model RPInventory.Pages.Profiles.DeleteModel
+
+@{
+    ViewData["Title"] = "Do you want to delete profile with name" + Model.Profile.Name + "?";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Profile.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Profile.Name)
+        </dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Profile.Id" />
+        <partial name="Actions/_Delete" />
+    </form>
+</div>
