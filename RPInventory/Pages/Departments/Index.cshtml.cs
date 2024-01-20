@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using RPInventory.Data;
 using RPInventory.Models;
 using X.PagedList;
@@ -29,6 +30,7 @@ public class IndexModel : PageModel
         var recordsPerPage = _configuration.GetValue("RecordsPerPage", 3);
 
         var result = _context.Departments
+                               .AsNoTracking()
                                .Select(u => u);
 
         if (!string.IsNullOrEmpty(SearchTerm))

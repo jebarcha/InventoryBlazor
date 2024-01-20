@@ -30,6 +30,7 @@ public class IndexModel : PageModel
         var recordsPerPage = _configuration.GetValue("RecordsPerPage", 3);
         
         var result = _context.Brands
+                               .AsNoTracking()
                                .Select(u => u);
 
         if (!string.IsNullOrEmpty(SearchTerm))
