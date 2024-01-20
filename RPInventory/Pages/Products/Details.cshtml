@@ -1,0 +1,50 @@
+﻿@page "{id:int?}"
+@model RPInventory.Pages.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalles del producto";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.BrandId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Brand.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @*@Html.DisplayFor(model => model.Product.Costo)*@
+            @String.Format("{0:c}", Model.Product.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Status)
+        </dd>
+    </dl>
+</div>
+<div class="row">
+    <div class="col">
+        <partial name="Actions/_Details" model="@Model.Product.Id" />
+    </div>
+</div>
+

@@ -5,36 +5,36 @@ using Microsoft.EntityFrameworkCore;
 using RPInventory.Data;
 using RPInventory.Models;
 
-namespace RPInventory.Pages.Departments;
+namespace RPInventory.Pages.Products;
 
 public class DeleteModel : PageModel
 {
-
-    private readonly Data.InventoryContext _context;
+    private readonly InventoryContext _context;
     private readonly INotyfService _serviceNotification;
 
-    public DeleteModel(InventoryContext context, INotyfService servicioNotificacion)
+    public DeleteModel(InventoryContext context, INotyfService serviceNotification)
     {
         _context = context;
-        _serviceNotification = servicioNotificacion;
+        _serviceNotification = serviceNotification;
     }
 
     [BindProperty]
-    public Department Department { get; set; }
+    public Product Product { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
         if (id == null)
         {
-            _serviceNotification.Warning($"Id should contain a value.");
+            _serviceNotification.Warning($"Product Id Should not be null");
             return NotFound();
         }
 
-        Department = await _context.Departments.FirstOrDefaultAsync(m => m.Id == id);
+        Product = await _context.Products
+            .Include(p => p.Brand).FirstOrDefaultAsync(m => m.Id == id);
 
-        if (Department == null)
+        if (Product == null)
         {
-            _serviceNotification.Warning($"Department not found with specified Id");
+            _serviceNotification.Warning($"Product Id Not Found");
             return NotFound();
         }
         return Page();
@@ -47,14 +47,16 @@ public class DeleteModel : PageModel
             return NotFound();
         }
 
-        Department = await _context.Departments.FindAsync(id);
+        Product = await _context.Products.FindAsync(id);
 
-        if (Department != null)
+        if (Product != null)
         {
-            _context.Departments.Remove(Department);
+            _context.Products.Remove(Product);
             await _context.SaveChangesAsync();
         }
-        _serviceNotification.Success($"Department {Department.Name} deleted");
+
+        _serviceNotification.Success($"Product deleted successfully {Product.Name}");
+
         return RedirectToPage("./Index");
     }
 }
