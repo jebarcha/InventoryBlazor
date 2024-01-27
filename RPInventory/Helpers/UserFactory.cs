@@ -53,4 +53,19 @@ public class UserFactory
         userDb.Lastname = user.Lastname;
         userDb.Profile = user.Profile;
     }
+
+    public UserChangePasswordViewModel CreateUserChangePassword(User user)
+    {
+        return new UserChangePasswordViewModel
+        {
+            Id = user.Id,
+            Username = user.Username
+        };
+    }
+
+    public UserChangePasswordViewModel ChangePassword(UserChangePasswordViewModel userVM, User userDb)
+    {
+        userDb.Password = _passwordHasher.HashPassword(userDb, userVM.Password);
+        return userVM;
+    }
 }

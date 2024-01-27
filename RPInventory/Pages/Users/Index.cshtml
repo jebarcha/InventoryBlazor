@@ -61,6 +61,9 @@
             </td>
             <td class="text-center">
                 <partial name="Actions/_Crud" model="item.Id" />
+                <a asp-page="./ChangePassword" asp-route-id="@item.Id" class="btn btn-warning">
+                    <i class="fa-solid fa-key"></i>&nbsp;Password    
+                </a>
             </td>
         </tr>
 }
