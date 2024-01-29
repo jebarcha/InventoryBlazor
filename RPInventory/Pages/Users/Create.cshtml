@@ -64,7 +64,11 @@
         </form>
     </div>
 </div>
-
+<span class="fa-solid fa-spinner fa-5x spinner" id="ajax-loader"></span>
 @section Scripts {
+    <script src="~/js/app.js"></script>
+    <script src="~/js/servicios-ajax.js"></script>
+    <script src="~/js/servicio-datos.js"></script>
+    <script src="~/js/crearusuariovm.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

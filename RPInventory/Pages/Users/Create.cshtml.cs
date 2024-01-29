@@ -60,4 +60,11 @@ public class CreateModel : PageModel
         return RedirectToPage("./Index");
     }
 
+    public async Task<JsonResult> OnGetExistsUsername(string username)
+    {
+        var existsUserDb = await _context.Users.AnyAsync(u => u.Username.ToLower().Trim() == username.ToLower().Trim());
+        var existsUser = existsUserDb ? true : false;
+        return new JsonResult(new { existsUser });
+    }
+
 }

@@ -17,6 +17,7 @@ public class UserChangePasswordViewModel
     [Required(ErrorMessage = "Password Confirmation is required")]
     [MinLength(5, ErrorMessage = "Password Confirmation should be greater or equal to 5 characters."), MaxLength(20, ErrorMessage = "Password should not be greater than 20 characters.")]
     [DataType(DataType.Password)]
+    [Display(Name = "Confirm Password")]
     [Compare("Password", ErrorMessage = "Password and Confirmation Password does not match.")]
     public string PasswordConfirm { get; set; }
 }
