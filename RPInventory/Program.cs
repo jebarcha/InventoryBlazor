@@ -12,9 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Profiles");
-    options.Conventions.AuthorizeFolder("/Users");
+    options.Conventions.AuthorizeFolder("/Profiles", "Administrators");
+    options.Conventions.AuthorizeFolder("/Users", "Administrators");
+    options.Conventions.AuthorizeFolder("/Departments", "Administrators");
+
+    options.Conventions.AuthorizeFolder("/Brands", "Employees");
+
+    options.Conventions.AuthorizeFolder("/Products", "Organization");
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Administrators",
+        policy => policy.RequireRole("Administrator"));
+
+    options.AddPolicy("Employees",
+        policy => policy.RequireRole("Administrator", "Employee"));
+
+    options.AddPolicy("Organization",
+        policy => policy.RequireRole("Administrator", "Employee", "Guest"));
+});
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -22,7 +40,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
         options.ExpireTimeSpan=TimeSpan.FromMinutes(5);
         options.LoginPath = "/Account/Login";
-        options.AccessDeniedPath = "/AccessDeny";
+        options.AccessDeniedPath = "/AccessDenyed";
         options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
         options.SlidingExpiration = true;
     });

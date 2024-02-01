@@ -51,7 +51,7 @@ public class UserFactory
         userDb.Email = user.Email;
         userDb.Name = user.Name;
         userDb.Lastname = user.Lastname;
-        userDb.Profile = user.Profile;
+        userDb.ProfileId = user.ProfileId;
     }
 
     public UserChangePasswordViewModel CreateUserChangePassword(User user)
