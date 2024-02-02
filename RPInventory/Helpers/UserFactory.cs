@@ -35,12 +35,13 @@ public class UserFactory
         return new UserEditViewModel()
         {
             Id = user.Id,
-            Username = user.Username,
             Lastname = user.Lastname,
             CelPhone = user.CelPhone,
             Email = user.Email,
             Name = user.Name,
-            ProfileId = user.ProfileId
+            ProfileId = user.ProfileId,
+            Username = user.Username,
+            Photo = user.Photo
         };
 
     }

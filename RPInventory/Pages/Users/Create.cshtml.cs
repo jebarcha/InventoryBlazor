@@ -27,6 +27,7 @@ public class CreateModel : PageModel
     public IActionResult OnGet()
     {
         Profiles = new SelectList(_context.Profiles.AsNoTracking(), "Id", "Name");
+        User = new UserRegisterViewModel();
         return Page();
     }
 
@@ -54,8 +55,17 @@ public class CreateModel : PageModel
 
         var userAdd = _userFactory.CreateUser(User);
 
+        if (Request.Form.Files.Count > 0)
+        {
+            IFormFile file = Request.Form.Files.FirstOrDefault();
+            using var dataStream = new MemoryStream();
+            await file.CopyToAsync(dataStream);
+            userAdd.Photo = dataStream.ToArray();
+        }
+
         _context.Users.Add(userAdd);
         await _context.SaveChangesAsync();
+        _serviceNotification.Success($"User {User.Username} added successfully");
 
         return RedirectToPage("./Index");
     }

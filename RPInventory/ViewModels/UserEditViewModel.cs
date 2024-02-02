@@ -27,4 +27,6 @@ public class UserEditViewModel
     public int ProfileId { get; set; }
     
     public Profile Profile { get; set; }
+
+    public byte[] Photo { get; set; }
 }

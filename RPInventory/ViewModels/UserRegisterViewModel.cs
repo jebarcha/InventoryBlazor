@@ -38,5 +38,7 @@ public class UserRegisterViewModel
     
     [Required(ErrorMessage = "Profile is required.")]
     [Display(Name = "Profile")]
-    public int ProfileId { get; set; }    
+    public int ProfileId { get; set; }
+
+    public byte[] Photo { get; set; }
 }
