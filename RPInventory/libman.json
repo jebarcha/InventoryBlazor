@@ -5,6 +5,16 @@
     {
       "library": "@fortawesome/fontawesome-free@6.1.1",
       "destination": "wwwroot/lib/fortawesome/fontawesome-free/"
+    },
+    {
+      "library": "mdb-ui-kit@7.1.0",
+      "destination": "wwwroot/lib/mdb-ui-kit/",
+      "files": [
+        "css/mdb.dark.min.css",
+        "css/mdb.min.css",
+        "js/mdb.es.min.js",
+        "js/mdb.umd.min.js"
+      ]
     }
   ]
 }
