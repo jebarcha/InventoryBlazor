@@ -7,9 +7,9 @@
 }
 <h4>@ViewData["Title"]</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mt-3">
                 <label asp-for="Product.Name" class="control-label"></label>
@@ -54,9 +54,31 @@
             <div class="form-group mt-3">
                 <partial name="Actions/_Create" />
             </div>
-        </form>
+        </div>
+        @* Implementación Imágenes *@
+        <div class="col-md-6">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product.Image" style="width: 100%;"></label>
+                @if (Model.Product.Image != null)
+                {
+                    <img id="photo" class="img-fluid" src="data:image/*;base64,@(Convert.ToBase64String(Model.Product.Image))">
+                }
+                else
+                {
+                    <img id="photo" class="img-fluid" src="">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Product.Image"
+                       class="form-control"
+                       onchange="document.getElementById('photo').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="Product.Image" class="text-danger"></span>
+            </div>
+        </div>
+        @* Implementación Imágenes *@
     </div>
-</div>
+</form>
 
 @section Scripts {
     @{

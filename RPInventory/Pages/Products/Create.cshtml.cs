@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using RPInventarios.Helpers;
 using RPInventory.Data;
 using RPInventory.Models;
+using RPInventory.ViewModels;
 
 namespace RPInventory.Pages.Products;
 
@@ -22,11 +24,12 @@ public class CreateModel : PageModel
     public IActionResult OnGet()
     {
         Brands = new SelectList(_context.Brands.AsNoTracking(), "Id", "Name");
+        Product = new ProductCreationEditionViewModel();
         return Page();
     }
 
     [BindProperty]
-    public Product Product { get; set; }
+    public ProductCreationEditionViewModel Product { get; set; }
     public SelectList Brands { get; set; }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -47,8 +50,24 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        _context.Products.Add(Product);
+        var newProduct = new Product() {
+            Id = Product.Id,
+            Price = Product.Price,
+            Description = Product.Description,
+            Status = Product.Status,
+            BrandId = Product.BrandId,
+            Name = Product.Name,
+        };
+
+        if (Request.Form.Files.Count > 0)
+        {
+            IFormFile file = Request.Form.Files.FirstOrDefault();
+            newProduct.Image = await Utilerias.LeerImagen(file);
+        }
+
+        _context.Products.Add(newProduct);
         await _context.SaveChangesAsync();
+        _serviceNotification.Success($"Product {newProduct.Name} created successfully");
 
         return RedirectToPage("./Index");
     }
