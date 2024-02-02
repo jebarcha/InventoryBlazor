@@ -18,13 +18,15 @@ public class LoginModel : PageModel
     private readonly InventoryContext _context;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly INotyfService _serviceNotification;
+    private readonly ILogger<LoginModel> _logger;
 
     public LoginModel(InventoryContext context, IPasswordHasher<User> passwordHasher,
-        INotyfService serviceNotification)
+        INotyfService serviceNotification, ILogger<LoginModel> logger)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _serviceNotification = serviceNotification;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -79,6 +81,8 @@ public class LoginModel : PageModel
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
+
+                _logger.LogInformation($"User {userDb.Username} has access the system. {DateTime.UtcNow}");
 
                 return LocalRedirect(Url.GetLocalUrl(returnUrl));
 
